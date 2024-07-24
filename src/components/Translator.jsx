@@ -102,7 +102,7 @@ function Translator() {
                 </li>
              </ul>
              <textarea value={fromInputText} name="from" id="from" placeholder="Enter text" onChange={(e) => {setFromInputText(e.target.value); countCharacters()}} maxLength="500"></textarea> 
-             <p className="count">{count}/500</p>
+             <p className="count">{count}/500.</p>
              <div className="controls">
                <ul class="controls__list">
                <li id="from" onClick={(e) => handleSound(e.target, "from")} ><img src={Sound} alt="" className="icon" /></li>
