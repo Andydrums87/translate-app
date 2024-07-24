@@ -3,8 +3,6 @@ import Sound from "../images/sound_max_fill.svg"
 import Copy from "../images/Copy.svg"
 import Exchange from "../images/Exchange.svg"
 import Letter from "../images/Sort_alfa.svg"
-import Select from "./Select";
-import Controls from "./Controls";
 import Logo from "../images/logo.svg"
 import languages from "../languages";
 import LanguageDetect from "languagedetect"
