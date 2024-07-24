@@ -229,9 +229,9 @@ color: var(--medium-grey);
 .country__btn {
   border:none;
   background-color: transparent;
-  color:var(--medium-grey);
+  color:var(--light-grey);
   font-size: var(--reg-font);
-  font-weight:700;
+  font-weight:550;
   cursor: pointer;
   border-radius: 5px;;
 }
@@ -247,12 +247,11 @@ color: var(--medium-grey);
 .dropdown__menu {
   background-color: transparent;
   border: none;
-  width:80px;
-  color:var(--medium-grey);
+  width:81px;
+  color:var(--light-grey);
   font-size:var(--reg-font);
-  font-weight: 700;
+  font-weight: 550;
   cursor: pointer;
-  
 }
 
 .languages__container {
@@ -270,14 +269,6 @@ color: var(--medium-grey);
 
 
 
-.dropdown__menu::before {
-  content:"";
-  background:url(./images/Expand_down.svg);
-  position:absolute;
-  top:0px;
-  left:0px;
- 
-}
 
 .icon {
   margin-right: 10px;;

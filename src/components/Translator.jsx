@@ -131,13 +131,16 @@ function Translator() {
                     <li><button id="1" value={fromLanguage} className={`country__btn ${toActive === "fifth" ? "country__btn__active" : ""}`}  onClick={(e) => {handleToButton(e.target, "French"); setToActive("fifth")}}>French</button></li>
                     <li>
                     <select value={toLanguage} onChange={(e) => setToLanguage(e.target.value)}className="dropdown__menu">
+                    <i class="fa-solid fa-chevron-down"></i>
                         {Object.entries(languages).map(([code, name]) => (
                         <option key={code} value={code.slice(0, 2)}>
                             {name}
                         </option>
                         ))}
+                        
                     </select>
                     </li>
+                  
                 </ul>
                 <img className="icon exchange" onClick={handleExchange} src={Exchange} alt="" /> 
                 <textarea value={toInputText} name="to" id="to" readOnly></textarea>
