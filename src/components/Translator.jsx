@@ -8,11 +8,10 @@ import languages from "../languages";
 import LanguageDetect from "languagedetect"
 
 
-
 function Translator() {
     
-    const [toLanguage, setToLanguage] = useState("French")
-    const [fromLanguage, setFromLanguage] = useState("English")
+    const [toLanguage, setToLanguage] = useState("fr")
+    const [fromLanguage, setFromLanguage] = useState("en")
     const [fromInputText, setFromInputText] = useState('Hello, how are you')
     const [toInputText, setToInputText] = useState('Bonjour, comment vas-tu?')
     const [loading, setLoading] = useState(false)
@@ -30,27 +29,28 @@ function Translator() {
     }
 
     const detectLanguage = () => {
-        const lngDetect = new LanguageDetect()
-        const newLanguage = lngDetect.detect(fromInputText, 20)
+        const langDetect = new LanguageDetect()
+        langDetect.setLanguageType('iso2')
+        const newLanguage = langDetect.detect(fromInputText, 20)
         const languageArr = newLanguage[0].slice(0, 1)
         const languageString = languageArr.toString()
-        const capitalized =languageString.charAt(0).toUpperCase() + languageString.slice(1)
-        setFromLanguage(capitalized)
+        setFromLanguage(languageString)
+      
     }
 
     const voiceResponse = (text, language) => {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang=("en-GB")
+        utterance.lang=(fromLanguage)
         synth.speak(utterance)
     }
 
     const handleFromButton = (target, id) => {
-        id === "French" ? setFromLanguage("French") : setFromLanguage("English") 
+        id === "French" ? setFromLanguage("fr") : setFromLanguage("en") 
     }
 
     const handleToButton = (target, id) => {
-        id === "French" ? setToLanguage("French") : setToLanguage("English") 
+        id === "French" ? setToLanguage("fr") : setToLanguage("en") 
     }
 
     const handleSound = (target, id) => {
@@ -68,18 +68,34 @@ function Translator() {
         setFromLanguage(toLanguage)
     }
 
-    const handleTranslate = () => {
-      
-        setLoading(true);
-        let url = `https://api.mymemory.translated.net/get?q=${fromInputText}&langpair=${fromLanguage}|${toLanguage}`;
+    const handleTranslate = async () => {
+        if(!fromInputText.trim()) {
+            setToInputText('')
+            return 
+        } 
+        setLoading(true)
+     const response = await fetch (
+        
+        `https://api.mymemory.translated.net/get?q=${fromInputText}&langpair=${fromLanguage}|${toLanguage}`
+     )
 
-        fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            setToInputText(data.responseData.translatedText);
-            setLoading(false);
-        });
-    };
+     const data = await response.json()
+     setToInputText(data.responseData.translatedText);
+     setLoading(false)
+    }
+
+    // const handleTranslate = () => {
+      
+    //     setLoading(true);
+    //     let url = `https://api.mymemory.translated.net/get?q=${fromInputText}&langpair=${fromLanguage}|${toLanguage}`;
+
+    //     fetch(url)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         setToInputText(data.responseData.translatedText);
+    //         setLoading(false);
+    //     });
+    // };
    
 
     return (
@@ -92,7 +108,7 @@ function Translator() {
                 <li>
                  <select value={fromLanguage} onChange={(e) => setFromLanguage(e.target.value)}className="dropdown__menu" id="from">
                    {Object.entries(languages).map(([code, name]) => (
-                    <option key={code} value={name}>
+                    <option key={code} value={code.slice(0, 2)}>
                     {name}
                     </option>
                     ))}
@@ -100,9 +116,9 @@ function Translator() {
                 </li>
              </ul>
              <textarea value={fromInputText} name="from" id="from" placeholder="Enter text" onChange={(e) => {setFromInputText(e.target.value); countCharacters()}} maxLength="500"></textarea> 
-             <p className="count">{count}/500.</p>
+             <p className="count">{count}/500</p>
              <div className="controls">
-               <ul class="controls__list">
+               <ul className="controls__list">
                <li id="from" onClick={(e) => handleSound(e.target, "from")} ><img src={Sound} alt="" className="icon" /></li>
                 <li id="copyFrom" onClick={(e) => handleCopy(e.target, "copyFrom")}><img src={Copy} alt="" className="icon" /></li>
                 </ul>
@@ -116,7 +132,7 @@ function Translator() {
                     <li>
                     <select value={toLanguage} onChange={(e) => setToLanguage(e.target.value)}className="dropdown__menu">
                         {Object.entries(languages).map(([code, name]) => (
-                        <option key={code} value={name}>
+                        <option key={code} value={code.slice(0, 2)}>
                             {name}
                         </option>
                         ))}
@@ -126,7 +142,7 @@ function Translator() {
                 <img className="icon exchange" onClick={handleExchange} src={Exchange} alt="" /> 
                 <textarea value={toInputText} name="to" id="to" readOnly></textarea>
               <div className="controls">
-                  <ul class="controls__list">
+                  <ul className="controls__list">
                     <li id="to" onClick={(e) => handleSound(e.target, "to")}><img className="icon"src={Sound} alt="" /></li>
                     <li id="copyTo" onClick={(e) => handleCopy(e.target, "copyTo")}><img className="icon" src={Copy} alt="" /></li>
                    </ul>

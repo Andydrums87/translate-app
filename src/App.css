@@ -91,7 +91,8 @@ body {
   width:50%;
   height:60%;
   border-radius: var(--border-radius-lg);
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
+  padding-bottom: 0px;;
   border: 1px solid var(--medium-grey);
 
 }
@@ -114,7 +115,7 @@ body {
   }
 
   .fromText, .toText {
-    width:95%;
+    width:90%;
     height:400px;
   }
 
@@ -286,7 +287,7 @@ color: var(--medium-grey);
 
 .exchange {
   position: absolute;
-  top:150px;
+  top:24%;
   left:90%;
 }
 
