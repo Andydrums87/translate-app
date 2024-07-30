@@ -18,6 +18,7 @@ function Translator() {
     const [count, setCount] = useState(0)
     const [active, setActive] = useState("zero")
     const [toActive, setToActive] = useState("zero")
+    const [isPlaying, setIsPlaying] = useState(false)
 
     const countCharacters = (e) => {
         setCount(fromInputText.length)
@@ -38,11 +39,14 @@ function Translator() {
       
     }
 
-    const voiceResponse = (text, language) => {
+    const voiceResponse = ( text, language) => {
+       
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang=(fromLanguage)
         synth.speak(utterance)
+        utterance.onend = () => setIsPlaying(false)
+        
     }
 
     const handleFromButton = (target, id) => {
@@ -96,6 +100,10 @@ function Translator() {
     //         setLoading(false);
     //     });
     // };
+
+   
+
+
    
 
     return (
@@ -110,8 +118,10 @@ function Translator() {
                    {Object.entries(languages).map(([code, name]) => (
                     <option key={code} value={code.slice(0, 2)}>
                     {name}
+                   
                     </option>
                     ))}
+                
                  </select>
                 </li>
              </ul>
@@ -119,7 +129,7 @@ function Translator() {
              <p className="count">{count}/500</p>
              <div className="controls">
                <ul className="controls__list">
-               <li id="from" onClick={(e) => handleSound(e.target, "from")} ><img src={Sound} alt="" className="icon" /></li>
+               <li id="from"onClick={(e) => {handleSound(e.target, "from"); setIsPlaying(true)}} ><img src={Sound} alt="" className="icon" style={{backgroundColor: isPlaying === true ? "white" : '' }} onend={(e) => setIsPlaying(false)} /></li>
                 <li id="copyFrom" onClick={(e) => handleCopy(e.target, "copyFrom")}><img src={Copy} alt="" className="icon" /></li>
                 </ul>
                 <button onClick={handleTranslate} disabled={loading} className="translate"><img src={Letter} alt="" />{loading ? 'Translating...' : 'Translate'}</button>
@@ -146,7 +156,7 @@ function Translator() {
                 <textarea value={toInputText} name="to" id="to" readOnly></textarea>
               <div className="controls">
                   <ul className="controls__list">
-                    <li id="to" onClick={(e) => handleSound(e.target, "to")}><img className="icon"src={Sound} alt="" /></li>
+                    <li id="to" onClick={(e) => {handleSound(e.target, "to"); setIsPlaying(true)}}  ><img style={{backgroundColor: isPlaying === true ? "white" : ""}}className="icon"src={Sound} alt="" /></li>
                     <li id="copyTo" onClick={(e) => handleCopy(e.target, "copyTo")}><img className="icon" src={Copy} alt="" /></li>
                    </ul>
                </div>

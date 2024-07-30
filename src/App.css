@@ -245,13 +245,20 @@ color: var(--medium-grey);
 }
 
 .dropdown__menu {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: ''; 
   background-color: transparent;
   border: none;
-  width:81px;
+  width:80px;
   color:var(--light-grey);
   font-size:var(--reg-font);
   font-weight: 550;
   cursor: pointer;
+  background-image: url(./images/Expand_down.svg);
+  background-repeat: no-repeat;
+  background-position: 80% 20%;
 }
 
 .languages__container {
@@ -276,6 +283,10 @@ color: var(--medium-grey);
   padding:5px;
   border: 2px solid var(--medium-grey);
 
+}
+
+.active {
+  border: 5px solid white;
 }
 
 .exchange {
